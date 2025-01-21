@@ -6,6 +6,7 @@ import '../../../features/product/screens/product_details_screen.dart';
 import '../../../features/product/models/product.dart';
 import '../../../features/home/screens/categories_screen.dart';
 import '../../../features/profile/screens/profile_screen.dart';
+import '../../../features/chatbot/screens/chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String? initialCategory;
@@ -313,6 +314,8 @@ class _HomeScreenState extends State<HomeScreen> {
           CategoriesScreen(),
           // Cart Tab
           CartScreen(),
+          // Chat Tab
+          const ChatScreen(),
           // Profile Tab
           const ProfileScreen(),
         ],
@@ -362,37 +365,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedIcon: Icons.shopping_cart,
                   label: 'Cart',
                   isSelected: _selectedIndex == 2,
-                  badge: Consumer<CartController>(
-                    builder: (context, cart, _) {
-                      if (cart.items.isEmpty) return const SizedBox.shrink();
-                      return Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: Text(
-                          '${cart.items.length}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    },
-                  ),
+                ),
+                _buildNavItem(
+                  icon: Icons.chat_outlined,
+                  selectedIcon: Icons.chat,
+                  label: 'Chat',
+                  isSelected: _selectedIndex == 3,
                 ),
                 _buildNavItem(
                   icon: Icons.person_outline,
                   selectedIcon: Icons.person,
                   label: 'Profile',
-                  isSelected: _selectedIndex == 3,
+                  isSelected: _selectedIndex == 4,
                 ),
               ],
             ),

@@ -11,6 +11,7 @@ import 'features/home/screens/home_screen.dart';
 import 'features/cart/screens/cart_screen.dart';
 import 'features/checkout/screens/checkout_screen.dart';
 import 'core/theme/app_theme.dart';
+import 'features/chatbot/controllers/chat_controller.dart';
 
 final getIt = GetIt.instance;
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthController()),
         ChangeNotifierProvider(create: (_) => CartController()),
+        ChangeNotifierProvider(create: (_) => ChatController()),
       ],
       child: MaterialApp(
         title: 'Abdullah Commerce',

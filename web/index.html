@@ -31,6 +31,16 @@
 
   <title>abdullah_commerce</title>
   <link rel="manifest" href="manifest.json">
+  <script>
+    // Initialize Web Speech API
+    window.initWebSpeech = function() {
+      if (!window.webkitSpeechRecognition) {
+        console.error('Speech recognition not supported');
+        return false;
+      }
+      return true;
+    }
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
