@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:ReBuyApp/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controllers/auth_controller.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -37,16 +41,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Welcome Back 👋',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Sign in to continue shopping',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.grey[600],
-                  ),
+                        color: Colors.grey[600],
+                      ),
                 ),
                 const SizedBox(height: 40),
 
@@ -70,7 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (value?.isEmpty ?? true) {
                             return 'Please enter your email';
                           }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value!)) {
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value!)) {
                             return 'Please enter a valid email';
                           }
                           return null;
@@ -90,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ).copyWith(
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword 
+                              _obscurePassword
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
                               color: Colors.grey,
@@ -150,7 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
                                     ),
                                   )
                                 : const Text(
@@ -247,29 +253,57 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  bool isLoading = false;
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
       try {
-        await context.read<AuthController>().login(
-          _emailController.text,
-          _passwordController.text,
+        final response = await http.get(
+          Uri.parse(
+              'https://localhost:44380/api/App/RebuyLogin?User_id=${_emailController.text}&Password=${_passwordController.text}'),
         );
-        if (mounted) {
-          Navigator.of(context).pushReplacementNamed('/home');
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(e.toString()),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+
+        if (response.statusCode == 200) {
+          final responseData = jsonDecode(response.body);
+
+          if (responseData['Message'] == 'Login successful.') {
+            print(responseData['user_name']);
+            String userName = responseData['user_name'] ?? 'Unknown User';
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Login Successful!')),
+            );
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
               ),
-            ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(responseData['Message'] ?? 'Login failed'),
+              ),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Invalid Credentials.')),
           );
         }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
-} 
+}

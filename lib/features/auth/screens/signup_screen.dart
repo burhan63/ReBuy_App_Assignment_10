@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:ReBuyApp/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controllers/auth_controller.dart';
+import 'package:http/http.dart' as http;
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -49,16 +53,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 Text(
                   'Create Account ✨',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Sign up to start shopping',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.grey[600],
-                  ),
+                        color: Colors.grey[600],
+                      ),
                 ),
                 const SizedBox(height: 32),
 
@@ -100,7 +104,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           if (value?.isEmpty ?? true) {
                             return 'Please enter your email';
                           }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value!)) {
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value!)) {
                             return 'Please enter a valid email';
                           }
                           return null;
@@ -120,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ).copyWith(
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword 
+                              _obscurePassword
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
                               color: Colors.grey,
@@ -156,14 +161,15 @@ class _SignupScreenState extends State<SignupScreen> {
                         ).copyWith(
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscureConfirmPassword 
+                              _obscureConfirmPassword
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
                               color: Colors.grey,
                             ),
                             onPressed: () {
                               setState(() {
-                                _obscureConfirmPassword = !_obscureConfirmPassword;
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
                               });
                             },
                           ),
@@ -198,7 +204,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                     width: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
                                     ),
                                   )
                                 : const Text(
@@ -298,27 +305,37 @@ class _SignupScreenState extends State<SignupScreen> {
   Future<void> _handleSignup() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await context.read<AuthController>().signup(
-          name: _nameController.text,
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
-        if (mounted) {
-          Navigator.of(context).pushReplacementNamed('/home');
-        }
-      } catch (e) {
-        if (mounted) {
+        final response = await http.post(Uri.parse(
+            'https://localhost:44380/api/App/RebuySignup?name=${_nameController.text}&Email=${_emailController.text}&Password=${_passwordController.text}&'));
+        // 'https://localhost:44380/api/App/Signup?User_id=${emailController.text}&Password=${passwordController.text}&name=${nameController.text}&contact=${contactController.text}'));
+
+        if (response.statusCode == 200) {
+          final responseData = jsonDecode(response.body);
+          if (responseData['Message'] == 'Registered successfully.') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Registered successfully!')),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content:
+                      Text(responseData['message'] ?? 'Registration failed')),
+            );
+          }
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(e.toString()),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
+            const SnackBar(content: Text('Invalid Credentials')),
           );
         }
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $error')),
+        );
       }
     }
   }
-} 
+}

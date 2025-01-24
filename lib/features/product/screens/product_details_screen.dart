@@ -6,7 +6,8 @@ import '../models/product.dart';
 class ProductDetailsScreen extends StatelessWidget {
   final Product product;
 
-  const ProductDetailsScreen({Key? key, required this.product}) : super(key: key);
+  const ProductDetailsScreen({Key? key, required this.product})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +134,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                     vertical: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                    color: Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
@@ -188,10 +191,14 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      _buildFeatureItem(context, Icons.verified, 'Genuine Product'),
-                      _buildFeatureItem(context, Icons.local_shipping_outlined, 'Free Delivery'),
-                      _buildFeatureItem(context, Icons.replay_outlined, '7 Days Return'),
-                      _buildFeatureItem(context, Icons.security, 'Secure Payment'),
+                      _buildFeatureItem(
+                          context, Icons.verified, 'Genuine Product'),
+                      _buildFeatureItem(context, Icons.local_shipping_outlined,
+                          'Free Delivery'),
+                      _buildFeatureItem(
+                          context, Icons.replay_outlined, '7 Days Return'),
+                      _buildFeatureItem(
+                          context, Icons.security, 'Secure Payment'),
                       const SizedBox(height: 32),
                       Row(
                         children: [
@@ -205,10 +212,12 @@ class ProductDetailsScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           Row(
-                            children: List.generate(5, (index) => 
-                              Icon(
+                            children: List.generate(
+                              5,
+                              (index) => Icon(
                                 Icons.star,
-                                color: index < 4 ? Colors.amber : Colors.grey[300],
+                                color:
+                                    index < 4 ? Colors.amber : Colors.grey[300],
                                 size: 20,
                               ),
                             ),
@@ -227,7 +236,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       const SizedBox(height: 40),
                       Consumer<CartController>(
                         builder: (context, cart, _) {
-                          final isInCart = cart.items.any((item) => item.product.id == product.id);
+                          final isInCart = cart.items
+                              .any((item) => item.product.id == product.id);
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Column(
@@ -240,13 +250,18 @@ class ProductDetailsScreen extends StatelessWidget {
                                         ? null
                                         : () {
                                             cart.addToCart(product);
-                                            ScaffoldMessenger.of(context).showSnackBar(
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
                                               SnackBar(
-                                                content: const Text('Added to cart'),
-                                                duration: const Duration(seconds: 1),
-                                                behavior: SnackBarBehavior.floating,
+                                                content:
+                                                    const Text('Added to cart'),
+                                                duration:
+                                                    const Duration(seconds: 1),
+                                                behavior:
+                                                    SnackBarBehavior.floating,
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
                                               ),
                                             );
@@ -258,7 +273,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                       elevation: 2,
                                     ),
                                     child: Text(
-                                      isInCart ? 'Added to Cart' : 'Add to Cart',
+                                      isInCart
+                                          ? 'Added to Cart'
+                                          : 'Add to Cart',
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -272,10 +289,12 @@ class ProductDetailsScreen extends StatelessWidget {
                                     width: double.infinity,
                                     height: 56,
                                     child: OutlinedButton(
-                                      onPressed: () => Navigator.pushNamed(context, '/cart'),
+                                      onPressed: () =>
+                                          Navigator.pushNamed(context, '/cart'),
                                       style: OutlinedButton.styleFrom(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(16),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
                                         ),
                                         side: BorderSide(
                                           color: Theme.of(context).primaryColor,
@@ -337,4 +356,4 @@ class ProductDetailsScreen extends StatelessWidget {
       ),
     );
   }
-} 
+}

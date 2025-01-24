@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ChatController()),
       ],
       child: MaterialApp(
-        title: 'Abdullah Commerce',
+        title: 'ReBuyApp',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         themeMode: ThemeMode.light,
@@ -53,4 +53,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-} 
+}

@@ -1,3 +1,4 @@
+import 'package:ReBuyApp/features/home/screens/SideBarMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../features/cart/controllers/cart_controller.dart';
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
   final int initialTab;
 
   const HomeScreen({
-    Key? key, 
+    Key? key,
     this.initialCategory,
     this.initialTab = 0,
   }) : super(key: key);
@@ -39,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '1',
       name: 'Nike Air Max',
-      imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80',
       price: 129.99,
       description: 'Comfortable running shoes with air cushioning.',
       category: 'Fashion',
@@ -47,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '2',
       name: 'Wireless Headphones',
-      imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80',
       price: 89.99,
       description: 'High-quality wireless headphones with noise cancellation.',
       category: 'Electronics',
@@ -55,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '3',
       name: 'Gaming Chair',
-      imageUrl: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=500&q=80',
       price: 199.99,
       description: 'Ergonomic gaming chair with lumbar support.',
       category: 'Furniture',
@@ -63,7 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '4',
       name: 'PS5 Controller',
-      imageUrl: 'https://images.unsplash.com/photo-1606318801954-d46d46d3360a?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1606318801954-d46d46d3360a?w=500&q=80',
       price: 69.99,
       description: 'Next-gen gaming controller with haptic feedback.',
       category: 'Gaming',
@@ -71,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '5',
       name: 'Coffee Maker',
-      imageUrl: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500&q=80',
       price: 79.99,
       description: 'Programmable coffee maker with timer.',
       category: 'Appliances',
@@ -79,7 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '6',
       name: 'Smart TV',
-      imageUrl: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&q=80',
       price: 599.99,
       description: '4K Smart TV with HDR support.',
       category: 'Electronics',
@@ -87,7 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '7',
       name: 'Denim Jacket',
-      imageUrl: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500&q=80',
       price: 59.99,
       description: 'Classic denim jacket with modern fit.',
       category: 'Fashion',
@@ -95,7 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '8',
       name: 'Sofa Set',
-      imageUrl: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&q=80',
       price: 899.99,
       description: '3-piece modern sofa set.',
       category: 'Furniture',
@@ -103,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '9',
       name: 'Gaming Console',
-      imageUrl: 'https://images.unsplash.com/photo-1605901309584-818e25960a8f?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1605901309584-818e25960a8f?w=500&q=80',
       price: 499.99,
       description: 'Next-gen gaming console.',
       category: 'Gaming',
@@ -111,7 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Product(
       id: '10',
       name: 'Microwave Oven',
-      imageUrl: 'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=500&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=500&q=80',
       price: 129.99,
       description: 'Smart microwave with multiple cooking modes.',
       category: 'Appliances',
@@ -128,11 +139,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Product> get _filteredProducts {
     return _products.where((product) {
-      final matchesCategory = _selectedCategory == null || 
-                            product.category == _selectedCategory;
+      final matchesCategory =
+          _selectedCategory == null || product.category == _selectedCategory;
       final matchesSearch = _searchQuery.isEmpty ||
-                          product.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                          product.description.toLowerCase().contains(_searchQuery.toLowerCase());
+          product.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          product.description
+              .toLowerCase()
+              .contains(_searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     }).toList();
   }
@@ -171,13 +184,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               category['name'] as String,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: isSelected
-                    ? Theme.of(context).primaryColor
-                    : null,
-                fontWeight: isSelected
-                    ? FontWeight.bold
-                    : null,
-              ),
+                    color: isSelected ? Theme.of(context).primaryColor : null,
+                    fontWeight: isSelected ? FontWeight.bold : null,
+                  ),
             ),
           ],
         ),
@@ -188,62 +197,63 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Abdullah Commerce'),
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                onPressed: () => Navigator.pushNamed(context, '/cart'),
-              ),
-              Consumer<CartController>(
-                builder: (context, cart, _) {
-                  if (cart.items.isEmpty) return const SizedBox.shrink();
-                  return Positioned(
-                    right: 8,
-                    top: 8,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 16,
-                        minHeight: 16,
-                      ),
-                      child: Text(
-                        '${cart.items.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              setState(() {
-                _selectedIndex = 3; // Switch to profile tab
-              });
-              // Force rebuild to ensure tab switch
-              if (mounted) {
-                Future.microtask(() {
-                  setState(() {});
-                });
-              }
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Abdullah Commerce'),
+      //   actions: [
+      //     Stack(
+      //       children: [
+      //         IconButton(
+      //           icon: const Icon(Icons.shopping_cart),
+      //           onPressed: () => Navigator.pushNamed(context, '/cart'),
+      //         ),
+      //         Consumer<CartController>(
+      //           builder: (context, cart, _) {
+      //             if (cart.items.isEmpty) return const SizedBox.shrink();
+      //             return Positioned(
+      //               right: 8,
+      //               top: 8,
+      //               child: Container(
+      //                 padding: const EdgeInsets.all(4),
+      //                 decoration: BoxDecoration(
+      //                   color: Theme.of(context).primaryColor,
+      //                   shape: BoxShape.circle,
+      //                 ),
+      //                 constraints: const BoxConstraints(
+      //                   minWidth: 16,
+      //                   minHeight: 16,
+      //                 ),
+      //                 child: Text(
+      //                   '${cart.items.length}',
+      //                   style: const TextStyle(
+      //                     color: Colors.white,
+      //                     fontSize: 10,
+      //                     fontWeight: FontWeight.bold,
+      //                   ),
+      //                   textAlign: TextAlign.center,
+      //                 ),
+      //               ),
+      //             );
+      //           },
+      //         ),
+      //       ],
+      //     ),
+      //     IconButton(
+      //       icon: const Icon(Icons.person),
+      //       onPressed: () {
+      //         setState(() {
+      //           _selectedIndex = 3; // Switch to profile tab
+      //         });
+      //         // Force rebuild to ensure tab switch
+      //         if (mounted) {
+      //           Future.microtask(() {
+      //             setState(() {});
+      //           });
+      //         }
+      //       },
+      //     ),
+      //   ],
+      // ),
+
       body: IndexedStack(
         index: _selectedIndex,
         sizing: StackFit.expand,
@@ -254,17 +264,68 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: SearchBar(
-                    hintText: 'Search products...',
-                    leading: const Icon(Icons.search),
-                    padding: const MaterialStatePropertyAll<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 16.0),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(
+                                'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg'),
+                          ),
+                          const SizedBox(width: 30),
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hey ',
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.w900),
+                              ),
+                              Text(
+                                "Welcome back!",
+                                style:
+                                    TextStyle(fontSize: 20, color: Colors.red),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Builder(
+                              builder: (BuildContext context) {
+                                return IconButton(
+                                  onPressed: () {
+                                    Scaffold.of(context).openEndDrawer();
+                                  },
+                                  icon: const Icon(Icons.menu),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(children: [
+                        Expanded(
+                          child: SearchBar(
+                            hintText: 'Search products...',
+                            leading: const Icon(Icons.search),
+                            padding: const WidgetStatePropertyAll<EdgeInsets>(
+                              EdgeInsets.symmetric(horizontal: 16.0),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                _searchQuery = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ])
+                    ],
                   ),
                 ),
               ),
@@ -277,8 +338,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         _selectedCategory ?? 'All Products',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ),
                     SizedBox(
@@ -287,7 +348,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         itemCount: _categories.length,
-                        itemBuilder: (context, index) => _buildCategoryItem(_categories[index]),
+                        itemBuilder: (context, index) =>
+                            _buildCategoryItem(_categories[index]),
                       ),
                     ),
                   ],
@@ -303,7 +365,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisSpacing: 16.0,
                   ),
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => _buildProductCard(context, _filteredProducts[index]),
+                    (context, index) =>
+                        _buildProductCard(context, _filteredProducts[index]),
                     childCount: _filteredProducts.length,
                   ),
                 ),
@@ -313,13 +376,14 @@ class _HomeScreenState extends State<HomeScreen> {
           // Categories Tab
           CategoriesScreen(),
           // Cart Tab
-          CartScreen(),
+          const CartScreen(),
           // Chat Tab
           const ChatScreen(),
           // Profile Tab
           const ProfileScreen(),
         ],
       ),
+      endDrawer: const SidebarMenu(),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
         child: Container(
@@ -341,7 +405,8 @@ class _HomeScreenState extends State<HomeScreen> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               selectedIndex: _selectedIndex,
-              labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+              labelBehavior:
+                  NavigationDestinationLabelBehavior.onlyShowSelected,
               onDestinationSelected: (index) {
                 setState(() {
                   _selectedIndex = index;
@@ -408,7 +473,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: constraints.maxHeight * 0.6,
                   child: Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         height: double.infinity,
                         child: Image.network(
@@ -515,9 +580,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Icon(
             icon,
             size: isSelected ? 28 : 24,
-            color: isSelected 
-                ? Theme.of(context).primaryColor
-                : Colors.grey[600],
+            color:
+                isSelected ? Theme.of(context).primaryColor : Colors.grey[600],
           ),
           if (badge != null)
             Positioned(
@@ -545,4 +609,4 @@ class _HomeScreenState extends State<HomeScreen> {
       label: label,
     );
   }
-} 
+}
